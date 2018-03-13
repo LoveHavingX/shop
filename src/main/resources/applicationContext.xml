@@ -23,7 +23,7 @@
 		<property name="password" value="${jdbc.password}"></property>
 	</bean>
 	
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<!-- 注入连接池 -->
 		<property name="dataSource" ref="dataSource"></property>
 		<!-- 配置连接池的其他属性 -->
@@ -36,18 +36,36 @@
 				<prop key="hibernate.connection.autocommit">false</prop>
 			</props>
 		</property>
+		
+		<property name="mappingResources">
+			<list>
+				<value>com/lhx/user/User.hbm.xml</value>
+			</list>
+		</property>
 	</bean>
     
     <!-- 声明式事务管理 -->
     <!-- 配置事务管理器 -->
-    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
     	<!-- 注入 -->
     	<property name="sessionFactory" ref="sessionFactory"></property>
     </bean>
     
     <tx:annotation-driven transaction-manager="transactionManager"/>
     
-    <!-- config Action -->
+    <!-- 配置 Action -->
     <bean id="indexAction" class="com.lhx.action.IndexAction" scope="prototype"></bean>
-    <bean id="userAction" class="com.lhx.user.UserAction" scope="prototype"></bean>
+    <bean id="userAction" class="com.lhx.user.UserAction" scope="prototype">
+    	<property name="userService" ref="userService"></property>
+    </bean>
+    
+    <!-- 配置Service -->
+    <bean id="userService" class="com.lhx.user.UserService">
+    	<property name="userDao" ref="userDao"></property>
+    </bean>
+    
+    <!-- 配置Dao -->
+    <bean id="userDao" class="com.lhx.user.UserDao">
+    	<property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
 </beans>

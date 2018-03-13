@@ -150,7 +150,7 @@
 								<tr>
 									<th><span class="requiredField">*</span>用户名:</th>
 									<td><input type="text" id="username" name="username"
-										class="text" maxlength="20" onblur="checkUserName()" /><span
+										class="text" maxlength="20" /><span
 										id="span1"><s:fielderror fieldName="username" />
 									</span></td>
 								</tr>

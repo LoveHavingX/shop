@@ -12,6 +12,20 @@ import com.opensymphony.xwork2.ModelDriven;
 public class UserAction extends ActionSupport implements ModelDriven<User>{
 	private User user = new User();
 	
+	private UserService userService;
+	
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	public User getModel() {
 		return user;
 	}
@@ -19,5 +33,11 @@ public class UserAction extends ActionSupport implements ModelDriven<User>{
 	//跳转到注册页面的方法
 	public String registPage() {
 		return "registPageSuccess";
+	}
+	
+	//用户注册
+	public String regist() {
+		userService.regist(user);
+		return "registSuccess";
 	}
 }
