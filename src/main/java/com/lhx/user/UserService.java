@@ -2,6 +2,7 @@ package com.lhx.user;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lhx.utils.MailUtils;
 import com.lhx.utils.UUIDUtils;
 
 @Transactional
@@ -20,7 +21,18 @@ public class UserService {
 		user.setCode(code);
 		userDao.save(user);
 		//发送邮件
+		try {
+			MailUtils.sendMail(user.getEmail(), code);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
-	
+	//根据激活码查询用户
+	public User findByCode(String code) {
+		return userDao.findByCode(code);
+	}
+	//业务层修改用户的方法
+	public void update(User existUser) {
+		userDao.updata(existUser);
+	}	
 }
